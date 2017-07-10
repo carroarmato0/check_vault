@@ -1,0 +1,18 @@
+name: check_vault
+description: "file:///README.md"
+url: "https://github.com/carroarmato0/check_vault"
+tags: HashiCorp
+vendor: Linux
+target: Operating System
+type: Plugin
+license: gplv3
+releases:
+  -
+    name: 1.0
+    description: "1.0 Release"
+    files:
+      -
+        name: check_vault
+        url: "file:///check_vault"
+        description: "First release"
+        checksum: 94f6ac60bd1f7691aec298a10a859f9b
