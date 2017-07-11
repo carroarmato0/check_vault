@@ -18,6 +18,8 @@ WARNING=1;
 CRITICAL=2;
 UNKNOWN=3;
 
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+
 OUTPUT="$(bash -c 'vault status 2>&1')";
 
 if [[ $OUTPUT == *"command not found"* ]]; then
