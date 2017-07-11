@@ -16,3 +16,12 @@ releases:
         url: "file:///check_vault"
         description: "First release"
         checksum: 94f6ac60bd1f7691aec298a10a859f9b
+  -
+    name: 1.1
+    description: "1.1 Release"
+    files:
+      -
+        name: check_vault
+        url: "file:///check_vault"
+        description: "Fix Vault command not found and allow passing the vault address"
+        checksum: 51fe096940159059c7189b4b11dce02c

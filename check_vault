@@ -8,19 +8,40 @@
 # This is a simple Nagios/Icinga check which will query  #
 # the state of Vault.                                    #
 #                                                        #
+# 2017-10-11:                                            #
+#  - Fix Vault command not found when using nrpe         #
+#  - Allow specifying the address                        #
+#                                                        #
 # 2017-10-10:                                            #
 #  - Initial release                                     #
 #                                                        #
 ##########################################################
 
+# Constants
 OK=0;
 WARNING=1;
 CRITICAL=2;
 UNKNOWN=3;
 
+# Define PATH incase the user executing the script doesn't have it set (nrpe)
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 
-OUTPUT="$(bash -c 'vault status 2>&1')";
+ADDRESS='-address http://127.0.0.1:8200'
+
+# Parse through provided arguments
+while [ "$1" != "" ]; do
+  case $1 in
+    -a | --address )      shift
+                          ADDRESS="-address $1"
+                          ;;
+    * )
+  esac
+  shift
+done
+
+STATUS_COMMAND="vault status $ADDRESS";
+
+OUTPUT=$(eval $STATUS_COMMAND 2>&1);
 
 if [[ $OUTPUT == *"command not found"* ]]; then
   echo "Vault command not found";
@@ -40,8 +61,7 @@ elif [[ $OUTPUT == *"Sealed: false"* ]]; then
   echo "Vault unsealed";
   exit $OK;
 else
-  echo "Vault in an unknown state.\n";
+  echo "Vault in an unknown state";
   echo $OUTPUT;
   exit $UNKNOWN;
 fi
-
