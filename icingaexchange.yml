@@ -25,3 +25,13 @@ releases:
         url: "file:///check_vault"
         description: "Fix Vault command not found and allow passing the vault address"
         checksum: 51fe096940159059c7189b4b11dce02c
+
+  -
+    name: 1.2
+    description: "1.2 Release"
+    files:
+      -
+        name: check_vault
+        url: "file:///check_vault"
+        description: "Add TLS support"
+        checksum: 1623f495865ecdcf187138d268c7acf7
