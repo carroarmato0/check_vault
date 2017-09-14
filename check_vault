@@ -26,7 +26,7 @@ UNKNOWN=3;
 # Define PATH incase the user executing the script doesn't have it set (nrpe)
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 
-ADDRESS='-address http://127.0.0.1:8200'
+ADDRESS=""
 
 # Parse through provided arguments
 while [ "$1" != "" ]; do
@@ -34,10 +34,31 @@ while [ "$1" != "" ]; do
     -a | --address )      shift
                           ADDRESS="-address $1"
                           ;;
+
+    --tls )               shift
+                          TLS="true"
+                          ;;
+    --tls-server-name )   shift
+                          TLS="true"
+                          export VAULT_TLS_SERVER_NAME="$1"
+                          ;;
+    --ca-cert )           shift
+                          TLS="true"
+                          export VAULT_CACERT="$1"
+                          ;;
     * )
   esac
   shift
 done
+
+if [ -z "$ADDRESS" ]; then
+  if [ "$TLS" = true ]; then
+    ADDRESS='-address https://127.0.0.1:8200'
+  else
+    ADDRESS='-address http://127.0.0.1:8200'
+  fi
+fi
+
 
 STATUS_COMMAND="vault status $ADDRESS";
 
